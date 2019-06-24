@@ -1,33 +1,48 @@
 package com.example.mediadb.view.movielist
 
-import androidx.lifecycle.ViewModelProviders
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mediadb.R
+import com.example.mediadb.base.view.BaseFragment
+import kotlinx.android.synthetic.main.movie_list_fragment.*
 
-class MovieListFragment : Fragment() {
+class MovieListFragment : BaseFragment() {
 
-    companion object {
-        fun newInstance() = MovieListFragment()
-    }
+    private val TAG = MovieListFragment::class.java.simpleName
 
     private lateinit var viewModel: MovieListViewModel
+    private lateinit var movieListAdapter: MovieListAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.movie_list_fragment, container, false)
+    companion object {
+        fun newInstance(): MovieListFragment {
+            val fragment = MovieListFragment()
+            return fragment
+        }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MovieListViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun getLayoutID(): Int {
+        return R.layout.movie_list_fragment
+    }
+
+    override fun initViewModel() {
+        viewModel = ViewModelProviders.of(activity!!).get(MovieListViewModel::class.java)
+
+        viewModel.showListMovieData().observe(this, Observer {
+            //            Logger.d(TAG, "showListMovieData() ${it[1].title}")
+            movieListAdapter.setAllMovieItems(it)
+        })
+    }
+
+    override fun onViewReady(view: View) {
+        //Setting up RecyclerView.
+        rv_movie_list.layoutManager = LinearLayoutManager(requireContext())
+        movieListAdapter = MovieListAdapter()
+        rv_movie_list.adapter = movieListAdapter
+
+        // Get movie data from service.
+        viewModel.getListMovieData()
     }
 
 }

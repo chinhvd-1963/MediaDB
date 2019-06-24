@@ -4,25 +4,20 @@
         xmlns:bind="http://schemas.android.com/apk/res-auto"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-        <variable
-                name="item"
-                type="com.example.mediadb.data.model.Movie"/>
-    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="300dp">
 
         <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/tv_movie_poster"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                bind:loadImage="@{item.poster_path}"
                 android:src="@drawable/background_movie"/>
         <TextView
+                android:id="@+id/tv_movie_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{item.title}"
                 android:gravity="center"
                 android:padding="@dimen/main_movie_title_padding"
                 android:background="@color/tv_movie_backeground"

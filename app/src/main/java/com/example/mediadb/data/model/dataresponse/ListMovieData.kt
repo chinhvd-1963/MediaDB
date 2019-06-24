@@ -7,7 +7,7 @@ data class ListMovieData(
     @SerializedName("page")
     val page: Int,
     @SerializedName("results")
-    val results: List<Result>,
+    val movies: MutableList<Movie>,
     @SerializedName("total_pages")
     val totalPages: Int,
     @SerializedName("total_results")
