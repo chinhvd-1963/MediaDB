@@ -60,6 +60,9 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:$ok_http") {
         transitive = true
     }
+    // glide
+    implementation("com.github.bumptech.glide:glide:4.9.0")
+    kapt("com.github.bumptech.glide:compiler:4.9.0")
     implementation "com.google.code.gson:gson:$gson"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'

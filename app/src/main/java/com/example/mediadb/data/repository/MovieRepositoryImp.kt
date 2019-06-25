@@ -5,5 +5,4 @@ import com.example.mediadb.data.model.dataresponse.Movie
 
 interface MovieRepositoryImp {
 
-    fun getListMovieData(hashMap: HashMap<String, String>)
 }

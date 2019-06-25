@@ -6,4 +6,8 @@ import io.reactivex.disposables.CompositeDisposable
 
 open class BaseViewModel(application: Application) : AndroidViewModel(application) {
     val disposables = CompositeDisposable()
+
+    override fun onCleared() {
+        disposables.clear()
+    }
 }

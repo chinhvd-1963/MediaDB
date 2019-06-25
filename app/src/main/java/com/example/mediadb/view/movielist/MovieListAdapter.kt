@@ -1,30 +1,27 @@
 package com.example.mediadb.view.movielist
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mediadb.R
 import com.example.mediadb.data.model.dataresponse.Movie
-import kotlinx.android.synthetic.main.item_movie.view.*
+import com.example.mediadb.databinding.ItemMovieBinding
 import java.util.*
 
-class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.ViewHoler>() {
+class MovieListAdapter (val clickListener: (Movie) -> Unit) : RecyclerView.Adapter<MovieListAdapter.ViewHoler>() {
 
     private var movieList: MutableList<Movie> = ArrayList()
-    private var listener: MovieListEvent? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHoler {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
-        return ViewHoler(view)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding: ItemMovieBinding = DataBindingUtil.inflate(inflater,
+            R.layout.item_movie, parent, false)
+        return ViewHoler(binding)
     }
 
     override fun getItemCount(): Int {
         return movieList.count()
-    }
-
-    fun setEventListenner(listenner: MovieListEvent) {
-        this.listener = listenner
     }
 
     fun setAllMovieItems(movieItems: MutableList<Movie>) {
@@ -33,21 +30,15 @@ class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.ViewHoler>() {
     }
 
     override fun onBindViewHolder(holder: ViewHoler, position: Int) {
-        holder.bind(movieList[position], listener)
+        holder.bind(movieList[position], clickListener)
     }
 
-    inner class ViewHoler(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(movie: Movie, listener: MovieListEvent?) {
+    inner class ViewHoler(val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(movie: Movie, clickListener: (Movie) -> Unit) {
+            binding.item = movie
 
-            itemView.tv_movie_title.text = movie.title
-
-            itemView.setOnClickListener {
-                listener!!.onItemClicked(movie)
-            }
+            itemView.setOnClickListener { clickListener(movie) }
+            binding.executePendingBindings()
         }
-    }
-
-    interface MovieListEvent {
-        fun onItemClicked(movie: Movie)
     }
 }
