@@ -1,13 +1,21 @@
 package com.example.mediadb.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.mediadb.R
+import com.example.mediadb.base.view.BaseActivity
+import com.example.mediadb.view.movielist.MovieListFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun onCreateActivity(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, MovieListFragment.newInstance())
+                .commitAllowingStateLoss()
+        }
+    }
+
+    override fun getLayoutID(): Int {
+        return R.layout.activity_main
     }
 }

@@ -1,6 +1,6 @@
 package com.example.mediadb.data.model
 
-data class Movie(
+data class MovieEntity(
     var id: Int,
     var video: Boolean,
     var vote_average: Double,
