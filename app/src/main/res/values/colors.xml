@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="dark_background">#000</color>
     <color name="tv_movie_backeground">#80000000</color>
     <color name="tv_movie_color">#FFFFFF</color>
+    <color name="white">#fff</color>
 </resources>
