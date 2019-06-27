@@ -30,11 +30,9 @@ class MovieDetailFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
-        if (activity != null) {
-            viewModel.movieItem.observe(viewLifecycleOwner, Observer {
-                binding.movieItem = it
-            })
-        }
+        viewModel.movieItem.observe(viewLifecycleOwner, Observer {
+            binding.movieItem = it
+        })
     }
 
     override fun onViewReady(view: View) {

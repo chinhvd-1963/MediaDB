@@ -36,11 +36,9 @@ class MovieFavoriteFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
-        if (activity != null) {
-            viewModel.showListMovieData().observe(viewLifecycleOwner, Observer {
-                movieFavoriteAdapter.setAllMovieItems(it)
-            })
-        }
+        viewModel.showListMovieData().observe(viewLifecycleOwner, Observer {
+            movieFavoriteAdapter.setAllMovieItems(it)
+        })
     }
 
     override fun onViewReady(view: View) {
