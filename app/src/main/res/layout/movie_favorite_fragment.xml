@@ -15,8 +15,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_movie_favorite"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_0"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"

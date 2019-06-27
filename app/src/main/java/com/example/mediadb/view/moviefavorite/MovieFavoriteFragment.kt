@@ -69,7 +69,7 @@ class MovieFavoriteFragment : BaseFragment() {
             activity!!.supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.container_fragment, movieDetailFragment)
-                .addToBackStack(null)
+                .addToBackStack(MovieDetailFragment::class.java.simpleName)
                 .commit()
         }
     }

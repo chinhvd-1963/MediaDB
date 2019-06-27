@@ -31,14 +31,14 @@ class MainActivity : BaseActivity() {
             R.id.navigation_home -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container_fragment, MovieListFragment.newInstance())
-                    .addToBackStack(null)
+                    .addToBackStack(MovieListFragment::class.java.simpleName)
                     .commit()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_favorite -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container_fragment, MovieFavoriteFragment.newInstance())
-                    .addToBackStack(null)
+                    .addToBackStack(MovieFavoriteFragment::class.java.simpleName)
                     .commit()
                 return@OnNavigationItemSelectedListener true
             }

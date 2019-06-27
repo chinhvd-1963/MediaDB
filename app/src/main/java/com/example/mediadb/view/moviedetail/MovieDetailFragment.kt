@@ -34,7 +34,7 @@ class MovieDetailFragment : BaseFragment() {
             viewModel = ViewModelProviders.of(activity!!).get(MovieListViewModel::class.java)
 
             viewModel.movieItem.observe(viewLifecycleOwner, Observer {
-                binding.viewModel = viewModel
+                binding.movieItem = it
             })
         }
     }
@@ -46,7 +46,7 @@ class MovieDetailFragment : BaseFragment() {
 
     private fun initEvent() {
         btn_favorite.setOnClickListener {
-            Toast.makeText(activity, "Add favorite event", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "${binding.movieItem?.title}", Toast.LENGTH_SHORT).show()
         }
         btn_back.setOnClickListener {
             activity?.onBackPressed()

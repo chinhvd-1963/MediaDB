@@ -8,24 +8,24 @@
 
     <data>
         <variable
-                name="viewModel"
-                type="com.example.mediadb.view.movielist.MovieListViewModel"/>
+                name="movieItem"
+                type="com.example.mediadb.data.model.dataresponse.Movie"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/dark_background">
+            android:background="@color/black">
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img_backdrop_path"
-                android:layout_width="0dp"
-                android:layout_height="300dp"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_300"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:scaleType="centerCrop"
-                bind:loadPoster="@{viewModel.movieItem.backdropPath}"
+                bind:loadPoster="@{movieItem.backdropPath}"
                 android:src="@drawable/background_movie"/>
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -40,62 +40,62 @@
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_title"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/tv_movie_title_padding"
+                android:padding="@dimen/dp_12"
                 android:textColor="@color/white"
-                android:textSize="@dimen/tv_movie_title_size"
+                android:textSize="@dimen/sp_20"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/img_backdrop_path"
-                android:text="@{ viewModel.movieItem.title }"/>
+                android:text="@{ movieItem.title }"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_release_date"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_movie_detail_text_size"
-                android:layout_marginLeft="@dimen/text_movie_detail_marginStart"
+                android:textSize="@dimen/sp_14"
+                android:layout_marginLeft="@dimen/sp_16"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_title"
-                android:text="@{viewModel.movieItem.releaseDate}"/>
+                android:text="@{movieItem.releaseDate}"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_original_language"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_movie_detail_text_size"
-                android:layout_marginLeft="@dimen/text_movie_detail_marginStart"
-                android:layout_marginTop="@dimen/text_movie_detail_marginTop"
+                android:textSize="@dimen/sp_14"
+                android:layout_marginLeft="@dimen/sp_16"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_release_date"
-                android:text="@{viewModel.movieItem.originalTitle}"/>
+                android:text="@{movieItem.originalTitle}"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_vote_average"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_movie_detail_text_size"
-                android:layout_marginLeft="@dimen/text_movie_detail_marginStart"
-                android:layout_marginTop="@dimen/text_movie_detail_marginTop"
+                android:textSize="@dimen/sp_14"
+                android:layout_marginLeft="@dimen/sp_16"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_original_language"
-                android:text="@{viewModel.movieItem.voteAverage.toString()}"/>
+                android:text="@{movieItem.voteAverage.toString()}"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_movie_over_view"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_movie_overview_text_size"
-                android:layout_marginLeft="@dimen/text_movie_detail_marginStart"
-                android:layout_marginTop="@dimen/text_movie_over_view_marginTop"
+                android:textSize="@dimen/sp_16"
+                android:layout_marginLeft="@dimen/sp_16"
+                android:layout_marginTop="@dimen/dp_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_vote_average"
@@ -103,16 +103,16 @@
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_over_view"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/dp_0"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_movie_detail_text_size"
-                android:layout_marginLeft="@dimen/text_movie_detail_marginStart"
-                android:layout_marginTop="@dimen/text_movie_detail_marginTop"
+                android:textSize="@dimen/sp_14"
+                android:layout_marginLeft="@dimen/sp_16"
+                android:layout_marginTop="@dimen/dp_8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_movie_over_view"
-                android:text="@{viewModel.movieItem.overview}"/>
+                android:text="@{movieItem.overview}"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btn_favorite"
@@ -120,9 +120,9 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="@dimen/btn_favorite_margin_end"
-                android:layout_marginRight="@dimen/btn_favorite_margin_end"
-                android:layout_marginBottom="@dimen/btn_favorite_margin_bottom"/>
+                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginRight="@dimen/dp_16"
+                android:layout_marginBottom="@dimen/dp_16"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
