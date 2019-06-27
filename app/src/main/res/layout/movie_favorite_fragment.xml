@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".view.movielist.MovieListFragment">
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".view.moviefavorite.MovieFavoriteFragment">
 
     <data>
         <variable
@@ -13,7 +14,7 @@
             android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_movie_list"
+                android:id="@+id/rv_movie_favorite"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_0"
                 app:layout_constraintTop_toTopOf="parent"

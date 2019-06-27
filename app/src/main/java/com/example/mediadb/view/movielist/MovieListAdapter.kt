@@ -9,7 +9,8 @@ import com.example.mediadb.data.model.dataresponse.Movie
 import com.example.mediadb.databinding.ItemMovieBinding
 import java.util.*
 
-class MovieListAdapter (val clickListener: (Movie) -> Unit) : RecyclerView.Adapter<MovieListAdapter.ViewHoler>() {
+class MovieListAdapter (private val clickListener: (Movie) -> Unit)
+    : RecyclerView.Adapter<MovieListAdapter.ViewHoler>() {
 
     private var movieList: MutableList<Movie> = ArrayList()
 

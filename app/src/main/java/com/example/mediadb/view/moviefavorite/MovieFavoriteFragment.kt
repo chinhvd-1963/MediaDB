@@ -1,4 +1,5 @@
-package com.example.mediadb.view.movielist
+package com.example.mediadb.view.moviefavorite
+
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,26 +13,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mediadb.R
 import com.example.mediadb.base.view.BaseFragment
 import com.example.mediadb.data.model.dataresponse.Movie
-import com.example.mediadb.databinding.MovieListFragmentBinding
+import com.example.mediadb.databinding.MovieFavoriteFragmentBinding
 import com.example.mediadb.view.moviedetail.MovieDetailFragment
+import com.example.mediadb.view.movielist.MovieListAdapter
+import com.example.mediadb.view.movielist.MovieListViewModel
+import kotlinx.android.synthetic.main.movie_favorite_fragment.*
 import kotlinx.android.synthetic.main.movie_list_fragment.*
 
-class MovieListFragment : BaseFragment() {
-
-    private val TAG = MovieListFragment::class.java.simpleName
+class MovieFavoriteFragment : BaseFragment() {
 
     private lateinit var viewModel: MovieListViewModel
-    private lateinit var movieListAdapter: MovieListAdapter
-    private lateinit var binding: MovieListFragmentBinding
+    private lateinit var movieFavoriteAdapter: MovieListAdapter
+    private lateinit var binding: MovieFavoriteFragmentBinding
 
     companion object {
-        fun newInstance(): MovieListFragment {
-            return MovieListFragment()
-        }
+        fun newInstance() = MovieFavoriteFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.movie_list_fragment, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.movie_favorite_fragment, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
@@ -41,23 +41,23 @@ class MovieListFragment : BaseFragment() {
             viewModel = ViewModelProviders.of(activity!!).get(MovieListViewModel::class.java)
 
             viewModel.showListMovieData().observe(viewLifecycleOwner, Observer {
-                movieListAdapter.setAllMovieItems(it)
+                movieFavoriteAdapter.setAllMovieItems(it)
             })
         }
     }
 
     override fun onViewReady(view: View) {
         //Setting up RecyclerView.
-        movieListAdapter = MovieListAdapter { movieItem: Movie -> movieItemClicked(movieItem) }
+        movieFavoriteAdapter = MovieListAdapter { movieItem: Movie -> movieItemClicked(movieItem) }
         val layoutManager = LinearLayoutManager(requireContext())
-        rv_movie_list.apply {
+        rv_movie_favorite.apply {
             this.layoutManager = layoutManager
             hasFixedSize()
             addItemDecoration(DividerItemDecoration(context, layoutManager.orientation))
-            adapter = movieListAdapter
+            adapter = movieFavoriteAdapter
         }
 
-        // Get movie data from service.
+        // Todo: Get favorite movie data from database.
         viewModel.getListMovieData()
     }
 
