@@ -41,7 +41,8 @@ ext {
     data_binding = '3.4.1'
     androidx = '1.0.0'
     material = '1.1.0-alpha07'
-    appcompat = '1.0.2'
+    appcompat = '1.1.0-beta01'
+    koin_version = '2.0.1'
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -70,6 +71,14 @@ dependencies {
     // glide
     implementation "com.github.bumptech.glide:glide:$glide"
     kapt "com.github.bumptech.glide:compiler:$glide"
+
+    // Koin AndroidX Scope features
+    implementation"org.koin:koin-core:$koin_version"
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    // Koin AndroidX ViewModel features
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    // Koin AndroidX Experimental features
+    implementation "org.koin:koin-androidx-ext:$koin_version"
 
     implementation "com.google.code.gson:gson:$gson"
     testImplementation 'junit:junit:4.12'
