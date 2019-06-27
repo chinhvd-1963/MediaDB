@@ -43,6 +43,7 @@ ext {
     material = '1.1.0-alpha07'
     appcompat = '1.1.0-beta01'
     koin_version = '2.0.1'
+    ktv_version = '2.2.0-alpha01'
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -54,7 +55,7 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:$androidx"
     implementation "androidx.constraintlayout:constraintlayout:$constrant_layout"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$ktv_version"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle"
     //Rx Android
     implementation "io.reactivex.rxjava2:rxandroid:$rx_android"
