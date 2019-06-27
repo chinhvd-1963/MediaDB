@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mediadb.R
@@ -18,11 +17,11 @@ import com.example.mediadb.view.moviedetail.MovieDetailFragment
 import com.example.mediadb.view.movielist.MovieListAdapter
 import com.example.mediadb.view.movielist.MovieListViewModel
 import kotlinx.android.synthetic.main.movie_favorite_fragment.*
-import kotlinx.android.synthetic.main.movie_list_fragment.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MovieFavoriteFragment : BaseFragment() {
 
-    private lateinit var viewModel: MovieListViewModel
+    private val viewModel: MovieListViewModel by sharedViewModel()
     private lateinit var movieFavoriteAdapter: MovieListAdapter
     private lateinit var binding: MovieFavoriteFragmentBinding
 
@@ -37,13 +36,9 @@ class MovieFavoriteFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
-        if (activity != null) {
-            viewModel = ViewModelProviders.of(activity!!).get(MovieListViewModel::class.java)
-
-            viewModel.showListMovieData().observe(viewLifecycleOwner, Observer {
-                movieFavoriteAdapter.setAllMovieItems(it)
-            })
-        }
+        viewModel.showListMovieData().observe(viewLifecycleOwner, Observer {
+            movieFavoriteAdapter.setAllMovieItems(it)
+        })
     }
 
     override fun onViewReady(view: View) {

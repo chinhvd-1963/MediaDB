@@ -73,7 +73,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_release_date"
-                android:text="@{movieItem.originalTitle}"/>
+                android:text="@{movieItem.originalLanguage}"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_vote_average"

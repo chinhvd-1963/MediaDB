@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.example.mediadb.R
 import com.example.mediadb.base.view.BaseFragment
 import com.example.mediadb.databinding.MovieDetailFragmentBinding
 import com.example.mediadb.view.movielist.MovieListViewModel
 import kotlinx.android.synthetic.main.movie_detail_fragment.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MovieDetailFragment : BaseFragment() {
 
@@ -20,7 +20,7 @@ class MovieDetailFragment : BaseFragment() {
         fun newInstance() = MovieDetailFragment()
     }
 
-    private lateinit var viewModel: MovieListViewModel
+    private val viewModel: MovieListViewModel by sharedViewModel()
     private lateinit var binding: MovieDetailFragmentBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,13 +30,9 @@ class MovieDetailFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
-        if (activity != null) {
-            viewModel = ViewModelProviders.of(activity!!).get(MovieListViewModel::class.java)
-
-            viewModel.movieItem.observe(viewLifecycleOwner, Observer {
-                binding.movieItem = it
-            })
-        }
+        viewModel.movieItem.observe(viewLifecycleOwner, Observer {
+            binding.movieItem = it
+        })
     }
 
     override fun onViewReady(view: View) {

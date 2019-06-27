@@ -1,8 +1,9 @@
 package com.example.mediadb.data.repository
 
-import androidx.lifecycle.MutableLiveData
-import com.example.mediadb.data.model.dataresponse.Movie
+import android.app.Application
+import com.example.mediadb.base.BaseRepository
 
-interface MovieRepositoryImp {
+class MovieRepositoryImp(application: Application) : BaseRepository(), MovieRepository {
 
+    private val TAG = MovieRepositoryImp::class.java.simpleName
 }

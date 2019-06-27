@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mediadb.R
@@ -15,12 +14,13 @@ import com.example.mediadb.data.model.dataresponse.Movie
 import com.example.mediadb.databinding.MovieListFragmentBinding
 import com.example.mediadb.view.moviedetail.MovieDetailFragment
 import kotlinx.android.synthetic.main.movie_list_fragment.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MovieListFragment : BaseFragment() {
 
     private val TAG = MovieListFragment::class.java.simpleName
 
-    private lateinit var viewModel: MovieListViewModel
+    private val viewModel: MovieListViewModel by sharedViewModel()
     private lateinit var movieListAdapter: MovieListAdapter
     private lateinit var binding: MovieListFragmentBinding
 
@@ -37,13 +37,9 @@ class MovieListFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
-        if (activity != null) {
-            viewModel = ViewModelProviders.of(activity!!).get(MovieListViewModel::class.java)
-
-            viewModel.showListMovieData().observe(viewLifecycleOwner, Observer {
-                movieListAdapter.setAllMovieItems(it)
-            })
-        }
+        viewModel.showListMovieData().observe(viewLifecycleOwner, Observer {
+            movieListAdapter.setAllMovieItems(it)
+        })
     }
 
     override fun onViewReady(view: View) {
