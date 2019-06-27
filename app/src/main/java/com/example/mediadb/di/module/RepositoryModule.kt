@@ -7,5 +7,5 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
     single { Gson() }
-    single<MovieRepository> { MovieRepositoryImp(get()) }
+    single<MovieRepository> { MovieRepositoryImp() }
 }

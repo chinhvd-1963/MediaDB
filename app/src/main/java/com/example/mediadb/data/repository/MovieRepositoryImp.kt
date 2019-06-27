@@ -1,9 +1,12 @@
 package com.example.mediadb.data.repository
 
-import android.app.Application
-import com.example.mediadb.base.BaseRepository
+import com.example.mediadb.data.api.ApiBuilder
+import com.example.mediadb.data.model.dataresponse.ListMovieData
+import io.reactivex.Single
 
-class MovieRepositoryImp(application: Application) : BaseRepository(), MovieRepository {
+class MovieRepositoryImp : MovieRepository {
 
-    private val TAG = MovieRepositoryImp::class.java.simpleName
+    override fun getListMovieData(option: HashMap<String, String>): Single<ListMovieData> {
+        return ApiBuilder.getServiceApi().getMovieList(option)
+    }
 }
