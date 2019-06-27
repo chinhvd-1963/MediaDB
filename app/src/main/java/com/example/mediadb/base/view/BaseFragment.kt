@@ -3,7 +3,6 @@ package com.example.mediadb.base.view
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
 
 abstract class BaseFragment : Fragment() {
 
