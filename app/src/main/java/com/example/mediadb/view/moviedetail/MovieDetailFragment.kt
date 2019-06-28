@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.mediadb.R
@@ -42,7 +41,9 @@ class MovieDetailFragment : BaseFragment() {
 
     private fun initEvent() {
         btn_favorite.setOnClickListener {
-            Toast.makeText(activity, "${binding.movieItem?.title}", Toast.LENGTH_SHORT).show()
+            if (binding.movieItem != null) {
+                viewModel.insertFavoriteMovie(binding.movieItem!!)
+            }
         }
         btn_back.setOnClickListener {
             activity?.onBackPressed()

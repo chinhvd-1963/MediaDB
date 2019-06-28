@@ -1,12 +1,15 @@
 package com.example.mediadb.view.movielist
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.mediadb.base.view.BaseViewModel
 import com.example.mediadb.data.model.dataresponse.Movie
 import com.example.mediadb.data.repository.MovieRepository
 import com.example.mediadb.utils.ApiUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
+
 
 class MovieListViewModel constructor(val movieRepository: MovieRepository) : BaseViewModel() {
 
@@ -18,6 +21,7 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
 
     private val listMovieData = MutableLiveData<MutableList<Movie>>()
     val movieItem = MutableLiveData<Movie>()
+    private val listFavoriteMovie = MutableLiveData<MutableList<Movie>>()
 
     fun getListMovieData() {
         val option = HashMap<String, String>()
@@ -31,7 +35,25 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
                     //Todo: implement show notification later.
                 })
         )
+    }
 
+    fun getListFavoriteMovie() {
+        viewModelScope.launch {
+            movieRepository.getListFavoriteMovie().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                    listFavoriteMovie.value = it
+                }, {})
+        }
+    }
+
+    fun insertFavoriteMovie(movie: Movie) {
+        viewModelScope.launch {
+            try {
+                movieRepository.insertFavoriteMovie(movie)
+            } catch (e: Exception) {
+
+            }
+        }
     }
 
     fun setSelectedMovie(movie: Movie) {
@@ -40,5 +62,9 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
 
     fun showListMovieData(): MutableLiveData<MutableList<Movie>> {
         return listMovieData
+    }
+
+    fun showListFavoriteMovie(): MutableLiveData<MutableList<Movie>> {
+        return listFavoriteMovie
     }
 }
