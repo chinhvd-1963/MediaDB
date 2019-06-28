@@ -37,7 +37,8 @@ class MovieListFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
-        viewModel.showListMovieData().observe(viewLifecycleOwner, Observer {
+        setObserveEvent(viewModel)
+        viewModel.listMovieData.observe(viewLifecycleOwner, Observer {
             movieListAdapter.setAllMovieItems(it)
         })
     }
@@ -58,7 +59,7 @@ class MovieListFragment : BaseFragment() {
     }
 
     private fun movieItemClicked(movieItem: Movie) {
-        viewModel.setSelectedMovie(movieItem)
+        viewModel.movieItem.value = movieItem
 
         val movieDetailFragment = MovieDetailFragment.newInstance()
         if (activity != null) {

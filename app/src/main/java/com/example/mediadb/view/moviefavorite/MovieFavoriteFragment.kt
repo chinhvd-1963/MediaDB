@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mediadb.R
 import com.example.mediadb.base.view.BaseFragment
 import com.example.mediadb.data.model.dataresponse.Movie
@@ -27,6 +27,7 @@ class MovieFavoriteFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = MovieFavoriteFragment()
+        const val NUMBER_COLUMNS_RECYCLE = 2
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,7 +37,8 @@ class MovieFavoriteFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
-        viewModel.showListMovieData().observe(viewLifecycleOwner, Observer {
+        setObserveEvent(viewModel)
+        viewModel.listFavoriteMovie.observe(viewLifecycleOwner, Observer {
             movieFavoriteAdapter.setAllMovieItems(it)
         })
     }
@@ -44,7 +46,7 @@ class MovieFavoriteFragment : BaseFragment() {
     override fun onViewReady(view: View) {
         //Setting up RecyclerView.
         movieFavoriteAdapter = MovieListAdapter { movieItem: Movie -> movieItemClicked(movieItem) }
-        val layoutManager = LinearLayoutManager(requireContext())
+        val layoutManager = GridLayoutManager(requireContext(), NUMBER_COLUMNS_RECYCLE)
         rv_movie_favorite.apply {
             this.layoutManager = layoutManager
             hasFixedSize()
@@ -53,11 +55,11 @@ class MovieFavoriteFragment : BaseFragment() {
         }
 
         // Todo: Get favorite movie data from database.
-        viewModel.getListMovieData()
+        viewModel.getListFavoriteMovie()
     }
 
     private fun movieItemClicked(movieItem: Movie) {
-        viewModel.setSelectedMovie(movieItem)
+        viewModel.movieItem.value = movieItem
 
         val movieDetailFragment = MovieDetailFragment.newInstance()
         if (activity != null) {

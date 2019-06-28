@@ -1,5 +1,6 @@
 package com.example.mediadb.view.movielist
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import com.example.mediadb.base.view.BaseViewModel
 import com.example.mediadb.data.model.dataresponse.Movie
@@ -7,6 +8,7 @@ import com.example.mediadb.data.repository.MovieRepository
 import com.example.mediadb.utils.ApiUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+
 
 class MovieListViewModel constructor(val movieRepository: MovieRepository) : BaseViewModel() {
 
@@ -16,8 +18,9 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
         const val DEFAULT_PAGE_NUMBER = 1
     }
 
-    private val listMovieData = MutableLiveData<MutableList<Movie>>()
+    val listMovieData = MutableLiveData<MutableList<Movie>>()
     val movieItem = MutableLiveData<Movie>()
+    val listFavoriteMovie = MutableLiveData<MutableList<Movie>>()
 
     fun getListMovieData() {
         val option = HashMap<String, String>()
@@ -28,17 +31,31 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({
                     listMovieData.value = it.movies
                 }, {
-                    //Todo: implement show notification later.
+                    showFailureThrowable(it)
                 })
         )
-
     }
 
-    fun setSelectedMovie(movie: Movie) {
-        this.movieItem.value = movie
+    @SuppressLint("CheckResult")
+    fun getListFavoriteMovie() {
+        disposables.add(
+            movieRepository.getListFavoriteMovie().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                    listFavoriteMovie.value = it
+                }, {
+                    showFailureThrowable(it)
+                })
+        )
     }
 
-    fun showListMovieData(): MutableLiveData<MutableList<Movie>> {
-        return listMovieData
+    fun insertFavoriteMovie(movie: Movie) {
+        disposables.add(
+            movieRepository.insertFavoriteMovie(movie).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                    //Do nothing in here
+                }, {
+                    showFailureThrowable(it)
+                })
+        )
     }
 }
