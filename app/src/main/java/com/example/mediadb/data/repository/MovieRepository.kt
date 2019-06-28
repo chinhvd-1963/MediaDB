@@ -3,7 +3,6 @@ package com.example.mediadb.data.repository
 import com.example.mediadb.data.model.dataresponse.ListMovieData
 import com.example.mediadb.data.model.dataresponse.Movie
 import io.reactivex.Single
-import kotlin.collections.HashMap
 
 interface MovieRepository {
 
@@ -11,7 +10,7 @@ interface MovieRepository {
 
     fun getListFavoriteMovie(): Single<MutableList<Movie>>
 
-    suspend fun insertFavoriteMovie(movie: Movie)
+    fun insertFavoriteMovie(movie: Movie): Single<Long>
 
     suspend fun deleteFavoriteMovie(id: String)
 }

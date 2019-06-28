@@ -29,6 +29,7 @@ class MovieDetailFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
+        setObserveEvent(viewModel)
         viewModel.movieItem.observe(viewLifecycleOwner, Observer {
             binding.movieItem = it
         })
@@ -41,9 +42,8 @@ class MovieDetailFragment : BaseFragment() {
 
     private fun initEvent() {
         btn_favorite.setOnClickListener {
-            if (binding.movieItem != null) {
-                viewModel.insertFavoriteMovie(binding.movieItem!!)
-            }
+            binding.movieItem ?: return@setOnClickListener
+            viewModel.insertFavoriteMovie(binding.movieItem!!)
         }
         btn_back.setOnClickListener {
             activity?.onBackPressed()

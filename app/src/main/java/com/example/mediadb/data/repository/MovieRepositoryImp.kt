@@ -19,9 +19,8 @@ class MovieRepositoryImp constructor(
         return movieDao.getListFavoriteMovie()
     }
 
-    @WorkerThread
-    override suspend fun insertFavoriteMovie(movie: Movie) {
-        movieDao.insertFavoriteMovie(movie)
+    override fun insertFavoriteMovie(movie: Movie): Single<Long> {
+        return movieDao.insertFavoriteMovie(movie)
     }
 
     @WorkerThread

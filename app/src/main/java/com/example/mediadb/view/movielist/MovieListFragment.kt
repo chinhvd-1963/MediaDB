@@ -37,6 +37,7 @@ class MovieListFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
+        setObserveEvent(viewModel)
         viewModel.listMovieData.observe(viewLifecycleOwner, Observer {
             movieListAdapter.setAllMovieItems(it)
         })

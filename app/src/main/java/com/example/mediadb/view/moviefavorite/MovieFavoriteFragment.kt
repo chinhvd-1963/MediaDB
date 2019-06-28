@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mediadb.R
 import com.example.mediadb.base.view.BaseFragment
 import com.example.mediadb.data.model.dataresponse.Movie
@@ -38,6 +37,7 @@ class MovieFavoriteFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
+        setObserveEvent(viewModel)
         viewModel.listFavoriteMovie.observe(viewLifecycleOwner, Observer {
             movieFavoriteAdapter.setAllMovieItems(it)
         })

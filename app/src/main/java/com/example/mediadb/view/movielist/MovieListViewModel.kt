@@ -2,14 +2,12 @@ package com.example.mediadb.view.movielist
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.mediadb.base.view.BaseViewModel
 import com.example.mediadb.data.model.dataresponse.Movie
 import com.example.mediadb.data.repository.MovieRepository
 import com.example.mediadb.utils.ApiUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.launch
 
 
 class MovieListViewModel constructor(val movieRepository: MovieRepository) : BaseViewModel() {
@@ -33,7 +31,7 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({
                     listMovieData.value = it.movies
                 }, {
-                    //Todo: implement show notification later.
+                    showFailureThrowable(it)
                 })
         )
     }
@@ -45,19 +43,20 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({
                     listFavoriteMovie.value = it
                 }, {
-                    //Todo: implement show notification later.
+                    showFailureThrowable(it)
                 })
         )
     }
 
     fun insertFavoriteMovie(movie: Movie) {
-        viewModelScope.launch {
-            try {
-                movieRepository.insertFavoriteMovie(movie)
-            } catch (e: Exception) {
-
-            }
-        }
+        disposables.add(
+            movieRepository.insertFavoriteMovie(movie).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                    //Do nothing in here
+                }, {
+                    showFailureThrowable(it)
+                })
+        )
     }
 
     fun setSelectedMovie(movie: Movie) {

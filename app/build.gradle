@@ -45,6 +45,7 @@ ext {
     koin_version = '2.0.1'
     ktv_version = '2.2.0-alpha01'
     roomVersion = '2.1.0'
+    room_rxjava2 = '1.1.1'
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -84,7 +85,7 @@ dependencies {
     //Room database
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
-    implementation 'android.arch.persistence.room:rxjava2:1.1.1'
+    implementation "android.arch.persistence.room:rxjava2:$room_rxjava2"
     kapt "androidx.room:room-compiler:$roomVersion"
 
     implementation "com.google.code.gson:gson:$gson"

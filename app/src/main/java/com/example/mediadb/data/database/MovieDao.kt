@@ -14,8 +14,8 @@ interface MovieDao {
     fun getListFavoriteMovie(): Single<MutableList<Movie>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavoriteMovie(movie: Movie)
+    fun insertFavoriteMovie(movie: Movie): Single<Long>
 
     @Query("DELETE FROM movie WHERE id = :id")
-    fun deleteFavoriteMovie(id: String)
+    fun deleteFavoriteMovie(id: String): Single<Int>
 }
