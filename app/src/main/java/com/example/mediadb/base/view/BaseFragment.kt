@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.example.mediadb.utils.Constants
 
 abstract class BaseFragment : Fragment() {
 
@@ -24,6 +25,10 @@ abstract class BaseFragment : Fragment() {
             if (it.message != null) {
                 Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
             }
+        })
+
+        viewModel.eventDelete.observe(this, Observer {
+            Toast.makeText(activity, Constants.TOAST_DELETE_SUCCESS, Toast.LENGTH_SHORT).show()
         })
     }
 }

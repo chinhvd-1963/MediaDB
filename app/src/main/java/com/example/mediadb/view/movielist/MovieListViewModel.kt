@@ -21,6 +21,7 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
     val listMovieData = MutableLiveData<MutableList<Movie>>()
     val movieItem = MutableLiveData<Movie>()
     val listFavoriteMovie = MutableLiveData<MutableList<Movie>>()
+    val movieItemFavorite = MutableLiveData<Movie>()
 
     fun getListMovieData() {
         val option = HashMap<String, String>()
@@ -57,5 +58,28 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
                     showFailureThrowable(it)
                 })
         )
+    }
+
+    fun deleteFavoriteMovie(id: Int) {
+        disposables.add(
+            movieRepository.deleteFavoriteMovie(id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                    showDeleteEvent(true)
+                }, {
+                    showFailureThrowable(it)
+                })
+        )
+    }
+
+    fun isExistFavorite(id: Int) {
+        disposables.add(
+            movieRepository.isExistFavorite(id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                    movieItemFavorite.value = it
+                }, {
+                    movieItemFavorite.value = null
+                })
+        )
+
     }
 }
