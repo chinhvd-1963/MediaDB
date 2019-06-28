@@ -12,5 +12,5 @@ interface MovieRepository {
 
     fun insertFavoriteMovie(movie: Movie): Single<Long>
 
-    suspend fun deleteFavoriteMovie(id: String)
+    fun deleteFavoriteMovie(id: String)
 }

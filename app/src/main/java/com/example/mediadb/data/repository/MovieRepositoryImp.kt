@@ -1,6 +1,5 @@
 package com.example.mediadb.data.repository
 
-import androidx.annotation.WorkerThread
 import com.example.mediadb.data.api.ApiBuilder
 import com.example.mediadb.data.database.MovieDao
 import com.example.mediadb.data.model.dataresponse.ListMovieData
@@ -23,8 +22,7 @@ class MovieRepositoryImp constructor(
         return movieDao.insertFavoriteMovie(movie)
     }
 
-    @WorkerThread
-    override suspend fun deleteFavoriteMovie(id: String) {
+    override fun deleteFavoriteMovie(id: String) {
 
     }
 }
