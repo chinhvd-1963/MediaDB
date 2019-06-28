@@ -58,8 +58,4 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
                 })
         )
     }
-
-    fun setSelectedMovie(movie: Movie) {
-        this.movieItem.value = movie
-    }
 }

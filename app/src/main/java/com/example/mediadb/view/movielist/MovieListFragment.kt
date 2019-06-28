@@ -59,7 +59,7 @@ class MovieListFragment : BaseFragment() {
     }
 
     private fun movieItemClicked(movieItem: Movie) {
-        viewModel.setSelectedMovie(movieItem)
+        viewModel.movieItem.value = movieItem
 
         val movieDetailFragment = MovieDetailFragment.newInstance()
         if (activity != null) {

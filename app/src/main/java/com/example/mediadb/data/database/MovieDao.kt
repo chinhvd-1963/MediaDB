@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.mediadb.data.model.dataresponse.Movie
+import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
@@ -14,8 +15,8 @@ interface MovieDao {
     fun getListFavoriteMovie(): Single<MutableList<Movie>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFavoriteMovie(movie: Movie): Single<Long>
+    fun insertFavoriteMovie(movie: Movie): Completable
 
     @Query("DELETE FROM movie WHERE id = :id")
-    fun deleteFavoriteMovie(id: String): Single<Int>
+    fun deleteFavoriteMovie(id: Int): Completable
 }

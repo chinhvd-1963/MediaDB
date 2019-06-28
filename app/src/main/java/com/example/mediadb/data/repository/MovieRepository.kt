@@ -2,6 +2,7 @@ package com.example.mediadb.data.repository
 
 import com.example.mediadb.data.model.dataresponse.ListMovieData
 import com.example.mediadb.data.model.dataresponse.Movie
+import io.reactivex.Completable
 import io.reactivex.Single
 
 interface MovieRepository {
@@ -10,7 +11,7 @@ interface MovieRepository {
 
     fun getListFavoriteMovie(): Single<MutableList<Movie>>
 
-    fun insertFavoriteMovie(movie: Movie): Single<Long>
+    fun insertFavoriteMovie(movie: Movie): Completable
 
-    fun deleteFavoriteMovie(id: String)
+    fun deleteFavoriteMovie(id: Int): Completable
 }
