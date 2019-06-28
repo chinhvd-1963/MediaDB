@@ -1,5 +1,6 @@
 package com.example.mediadb.view.movielist
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.mediadb.base.view.BaseViewModel
@@ -37,13 +38,14 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
         )
     }
 
+    @SuppressLint("CheckResult")
     fun getListFavoriteMovie() {
-        viewModelScope.launch {
             movieRepository.getListFavoriteMovie().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({
                     listFavoriteMovie.value = it
-                }, {})
-        }
+                }, {
+                    //Todo: implement show notification later.
+                })
     }
 
     fun insertFavoriteMovie(movie: Movie) {

@@ -9,7 +9,7 @@ interface MovieRepository {
 
     fun getListMovieData(option: HashMap<String, String>): Single<ListMovieData>
 
-    suspend fun getListFavoriteMovie(): Single<MutableList<Movie>>
+    fun getListFavoriteMovie(): Single<MutableList<Movie>>
 
     suspend fun insertFavoriteMovie(movie: Movie)
 

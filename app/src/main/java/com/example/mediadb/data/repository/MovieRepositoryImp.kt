@@ -1,6 +1,5 @@
 package com.example.mediadb.data.repository
 
-import android.util.Log
 import androidx.annotation.WorkerThread
 import com.example.mediadb.data.api.ApiBuilder
 import com.example.mediadb.data.database.MovieDao
@@ -16,14 +15,12 @@ class MovieRepositoryImp constructor(
         return ApiBuilder.getServiceApi().getMovieList(option)
     }
 
-    @WorkerThread
-    override suspend fun getListFavoriteMovie(): Single<MutableList<Movie>> {
+    override fun getListFavoriteMovie(): Single<MutableList<Movie>> {
         return movieDao.getListFavoriteMovie()
     }
 
     @WorkerThread
     override suspend fun insertFavoriteMovie(movie: Movie) {
-        Log.d("Chinh", "MovieRepositoryImp insertFavoriteMovie")
         movieDao.insertFavoriteMovie(movie)
     }
 
