@@ -21,14 +21,10 @@ abstract class BaseFragment : Fragment() {
 
     fun setObserveEvent(viewModel: BaseViewModel) {
 
-        viewModel.eventFailure.observe(this, Observer {
+        viewModel.eventFailure.observe(viewLifecycleOwner, Observer {
             if (it.message != null) {
                 Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
             }
-        })
-
-        viewModel.eventDelete.observe(this, Observer {
-            Toast.makeText(activity, Constants.TOAST_DELETE_SUCCESS, Toast.LENGTH_SHORT).show()
         })
     }
 }
