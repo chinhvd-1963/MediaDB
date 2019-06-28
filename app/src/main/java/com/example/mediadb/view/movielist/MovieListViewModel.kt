@@ -20,9 +20,9 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
         const val DEFAULT_PAGE_NUMBER = 1
     }
 
-    private val listMovieData = MutableLiveData<MutableList<Movie>>()
+    val listMovieData = MutableLiveData<MutableList<Movie>>()
     val movieItem = MutableLiveData<Movie>()
-    private val listFavoriteMovie = MutableLiveData<MutableList<Movie>>()
+    val listFavoriteMovie = MutableLiveData<MutableList<Movie>>()
 
     fun getListMovieData() {
         val option = HashMap<String, String>()
@@ -40,12 +40,14 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
 
     @SuppressLint("CheckResult")
     fun getListFavoriteMovie() {
+        disposables.add(
             movieRepository.getListFavoriteMovie().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({
                     listFavoriteMovie.value = it
                 }, {
                     //Todo: implement show notification later.
                 })
+        )
     }
 
     fun insertFavoriteMovie(movie: Movie) {
@@ -60,13 +62,5 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
 
     fun setSelectedMovie(movie: Movie) {
         this.movieItem.value = movie
-    }
-
-    fun showListMovieData(): MutableLiveData<MutableList<Movie>> {
-        return listMovieData
-    }
-
-    fun showListFavoriteMovie(): MutableLiveData<MutableList<Movie>> {
-        return listFavoriteMovie
     }
 }
