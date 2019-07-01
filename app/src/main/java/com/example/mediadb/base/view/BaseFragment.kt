@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.example.mediadb.utils.Constants
 
 abstract class BaseFragment : Fragment() {
 

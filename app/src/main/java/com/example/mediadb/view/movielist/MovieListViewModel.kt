@@ -22,6 +22,7 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
     val movieItem = MutableLiveData<Movie>()
     val listFavoriteMovie = MutableLiveData<MutableList<Movie>>()
     val movieItemFavorite = MutableLiveData<Movie>()
+    val isFavorite = MutableLiveData<Boolean>()
 
     fun getListMovieData() {
         val option = HashMap<String, String>()

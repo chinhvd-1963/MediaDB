@@ -24,7 +24,6 @@ class MovieDetailFragment : BaseFragment() {
 
     private val viewModel: MovieListViewModel by sharedViewModel()
     private lateinit var binding: MovieDetailFragmentBinding
-    private var isFavorite = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.movie_detail_fragment, container, false)
@@ -35,7 +34,8 @@ class MovieDetailFragment : BaseFragment() {
     override fun initViewModel() {
         setObserveEvent(viewModel)
         viewModel.movieItem.observe(viewLifecycleOwner, Observer {
-            binding.movieItem = it
+            //update binding.viewModel when receive viewModel movieItem value.
+            binding.viewModel = viewModel
             viewModel.isExistFavorite(it.id)
         })
         viewModel.movieItemFavorite.observe(viewLifecycleOwner, Observer {
@@ -47,13 +47,7 @@ class MovieDetailFragment : BaseFragment() {
     }
 
     private fun initBtnFloatingAction(it: Movie?) {
-        if (it == null) {
-            isFavorite = false
-            btn_favorite.setImageResource(R.drawable.ic_favorite_white_24dp)
-        } else {
-            isFavorite = true
-            btn_favorite.setImageResource(R.drawable.ic_favorite_red_24dp)
-        }
+        viewModel.isFavorite.value = it != null
     }
 
     override fun onViewReady(view: View) {
@@ -62,15 +56,16 @@ class MovieDetailFragment : BaseFragment() {
 
     private fun initEvent() {
         btn_favorite.setOnClickListener {
-            binding.movieItem ?: return@setOnClickListener
-            isFavorite = if (isFavorite) {
-                viewModel.deleteFavoriteMovie(binding.movieItem!!.id)
-                btn_favorite.setImageResource(R.drawable.ic_favorite_white_24dp)
-                false
-            } else {
-                viewModel.insertFavoriteMovie(binding.movieItem!!)
-                btn_favorite.setImageResource(R.drawable.ic_favorite_red_24dp)
-                true
+            binding.viewModel ?: return@setOnClickListener
+
+            if (binding.viewModel?.movieItem?.value != null) {
+                binding.viewModel?.isFavorite?.value = if (binding.viewModel?.isFavorite?.value!!) {
+                    viewModel.deleteFavoriteMovie(binding.viewModel?.movieItem?.value!!.id)
+                    false
+                } else {
+                    viewModel.insertFavoriteMovie(binding.viewModel?.movieItem?.value!!)
+                    true
+                }
             }
         }
         btn_back.setOnClickListener {
