@@ -38,9 +38,11 @@ class MovieListFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
+        //initViewModel of Data binding.
+        binding.viewModel = viewModel
+
         setObserveEvent(viewModel)
         viewModel.listMovieData.observe(viewLifecycleOwner, Observer {
-            binding.viewModel = viewModel
             viewModel.movieListApi.addAll(it)
             movieListAdapter.setAllMovieItems(viewModel.movieListApi)
             swipe_refresh_list_movie.isRefreshing = false
@@ -63,6 +65,8 @@ class MovieListFragment : BaseFragment() {
 
         // Get movie data from service.
         viewModel.getListMovieData(MovieListViewModel.DEFAULT_PAGE_NUMBER)
+        // Visiable progress bar loading.
+        viewModel.isLoading.value = true
 
         //Swipe to refresh list movie
         swipe_refresh_list_movie.setOnRefreshListener {

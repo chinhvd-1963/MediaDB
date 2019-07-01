@@ -29,6 +29,7 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
 
     val isFavorite = MutableLiveData<Boolean>().apply { value = false }
     val isEndlessLoading = MutableLiveData<Boolean>().apply { value = false }
+    val isLoading = MutableLiveData<Boolean>().apply { value = false }
 
     private var loadedPage = DEFAULT_PAGE_NUMBER
 
@@ -54,6 +55,8 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
 
                     //Invisiable endless loading.
                     isEndlessLoading.value = false
+                    //Invisiable data loading.
+                    isLoading.value = false
                 }, {
                     showFailureThrowable(it)
                 })
