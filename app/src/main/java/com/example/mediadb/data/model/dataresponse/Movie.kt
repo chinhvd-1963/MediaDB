@@ -12,7 +12,7 @@ data class Movie(
     val backdropPath: String?,
     @PrimaryKey(autoGenerate = false)
     @SerializedName("id")
-    val id: Int,
+    var id: Int,
     @SerializedName("original_language")
     val originalLanguage: String?,
     @SerializedName("original_title")

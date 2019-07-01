@@ -22,12 +22,14 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
     val movieItem = MutableLiveData<Movie>()
     val listFavoriteMovie = MutableLiveData<MutableList<Movie>>()
     val movieItemFavorite = MutableLiveData<Movie>()
-    val isFavorite = MutableLiveData<Boolean>()
 
-    fun getListMovieData() {
+    val isFavorite = MutableLiveData<Boolean>()
+    val isEndlessLoading = MutableLiveData<Boolean>()
+
+    fun getListMovieData(page: Int) {
         val option = HashMap<String, String>()
         option[ApiUtils.API_KEY_PARAM] = ApiUtils.API_KEY
-        option[ApiUtils.PAGE] = DEFAULT_PAGE_NUMBER.toString()
+        option[ApiUtils.PAGE] = page.toString()
         disposables.add(
             movieRepository.getListMovieData(option).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({
