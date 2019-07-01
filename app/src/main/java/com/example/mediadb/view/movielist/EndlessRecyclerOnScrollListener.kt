@@ -17,20 +17,25 @@ abstract class EndlessRecyclerOnScrollListener : RecyclerView.OnScrollListener()
         super.onScrolled(recyclerView, dx, dy)
 
         val visibleItemCount = recyclerView.childCount
-        val totalItemCount = recyclerView.layoutManager!!.itemCount
-        val firstVisibleItem = (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
 
-        if (mLoading) {
-            if (totalItemCount != mPreviousTotal) {
-                mLoading = false
-                mPreviousTotal = totalItemCount
-            }
+        val totalItemCount = recyclerView.layoutManager?.itemCount
+
+        var firstVisibleItem = 0
+        if (recyclerView.layoutManager is LinearLayoutManager) {
+            firstVisibleItem = (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
         }
-
-        if (!mLoading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-            // End has been reached
-            onLoadMore()
-            mLoading = true
+        if (totalItemCount != null) {
+            if (mLoading) {
+                if (totalItemCount != mPreviousTotal) {
+                    mLoading = false
+                    mPreviousTotal = totalItemCount
+                }
+            }
+            if (!mLoading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                // End has been reached
+                onLoadMore()
+                mLoading = true
+            }
         }
     }
 

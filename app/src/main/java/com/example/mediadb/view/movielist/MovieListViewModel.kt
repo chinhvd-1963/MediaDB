@@ -1,11 +1,13 @@
 package com.example.mediadb.view.movielist
 
 import android.annotation.SuppressLint
+import android.os.Handler
 import androidx.lifecycle.MutableLiveData
 import com.example.mediadb.base.view.BaseViewModel
 import com.example.mediadb.data.model.dataresponse.Movie
 import com.example.mediadb.data.repository.MovieRepository
 import com.example.mediadb.utils.ApiUtils
+import com.example.mediadb.utils.Constants
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -23,8 +25,23 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
     val listFavoriteMovie = MutableLiveData<MutableList<Movie>>()
     val movieItemFavorite = MutableLiveData<Movie>()
 
-    val isFavorite = MutableLiveData<Boolean>()
-    val isEndlessLoading = MutableLiveData<Boolean>()
+    var movieListApi: MutableList<Movie> = ArrayList()
+
+    val isFavorite = MutableLiveData<Boolean>().apply { value = false }
+    val isEndlessLoading = MutableLiveData<Boolean>().apply { value = false }
+
+    private var loadedPage = DEFAULT_PAGE_NUMBER
+
+    fun endlessLoading() {
+        isEndlessLoading.value = true
+
+        Handler().postDelayed({
+            loadedPage++
+            getListMovieData(loadedPage)
+
+            isEndlessLoading.value = false
+        }, Constants.ENDLESS_LOADING_TIME)
+    }
 
     fun getListMovieData(page: Int) {
         val option = HashMap<String, String>()
@@ -34,6 +51,9 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
             movieRepository.getListMovieData(option).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({
                     listMovieData.value = it.movies
+
+                    //Invisiable endless loading.
+                    isEndlessLoading.value = false
                 }, {
                     showFailureThrowable(it)
                 })

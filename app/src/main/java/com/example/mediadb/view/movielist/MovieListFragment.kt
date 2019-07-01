@@ -1,7 +1,6 @@
 package com.example.mediadb.view.movielist
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import com.example.mediadb.R
 import com.example.mediadb.base.view.BaseFragment
 import com.example.mediadb.data.model.dataresponse.Movie
 import com.example.mediadb.databinding.MovieListFragmentBinding
+import com.example.mediadb.utils.Constants
 import com.example.mediadb.view.moviedetail.MovieDetailFragment
 import kotlinx.android.synthetic.main.movie_list_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -24,17 +24,11 @@ class MovieListFragment : BaseFragment() {
     private val viewModel: MovieListViewModel by sharedViewModel()
     private lateinit var movieListAdapter: MovieListAdapter
     private lateinit var binding: MovieListFragmentBinding
-    private var movieListApi: MutableList<Movie> = ArrayList()
-
-    private var loadedPage = MovieListViewModel.DEFAULT_PAGE_NUMBER
 
     companion object {
         fun newInstance(): MovieListFragment {
             return MovieListFragment()
         }
-
-        const val NUMBER_COLUMNS_RECYCLE = 2
-        const val ENDLESS_LOADING_TIME = 2000L
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -46,8 +40,10 @@ class MovieListFragment : BaseFragment() {
     override fun initViewModel() {
         setObserveEvent(viewModel)
         viewModel.listMovieData.observe(viewLifecycleOwner, Observer {
-            movieListApi.addAll(it)
-            movieListAdapter.setAllMovieItems(movieListApi)
+            binding.viewModel = viewModel
+            viewModel.movieListApi.addAll(it)
+            movieListAdapter.setAllMovieItems(viewModel.movieListApi)
+            swipe_refresh_list_movie.isRefreshing = false
         })
     }
 
@@ -55,7 +51,7 @@ class MovieListFragment : BaseFragment() {
         //Setting up RecyclerView.
         movieListAdapter =
             MovieListAdapter { movieItem: Movie -> movieItemClicked(movieItem) }
-        val layoutManager = GridLayoutManager(requireContext(), NUMBER_COLUMNS_RECYCLE)
+        val layoutManager = GridLayoutManager(requireContext(), Constants.NUMBER_COLUMNS_RECYCLE)
         rv_movie_list.apply {
             this.layoutManager = layoutManager
             hasFixedSize()
@@ -70,30 +66,18 @@ class MovieListFragment : BaseFragment() {
 
         //Swipe to refresh list movie
         swipe_refresh_list_movie.setOnRefreshListener {
-            movieListApi.clear()
+            viewModel.movieListApi.clear()
             viewModel.getListMovieData(MovieListViewModel.DEFAULT_PAGE_NUMBER)
-            swipe_refresh_list_movie.isRefreshing = false
         }
     }
 
     private fun initScrollListener() {
         rv_movie_list.addOnScrollListener(object : EndlessRecyclerOnScrollListener() {
             override fun onLoadMore() {
-                endlessLoading()
+                viewModel.endlessLoading()
             }
 
         })
-    }
-
-    private fun endlessLoading() {
-        progressBar.visibility = View.VISIBLE
-
-        Handler().postDelayed({
-            loadedPage++
-            viewModel.getListMovieData(loadedPage)
-
-            progressBar.visibility = View.GONE
-        }, ENDLESS_LOADING_TIME)
     }
 
     private fun movieItemClicked(movieItem: Movie) {
