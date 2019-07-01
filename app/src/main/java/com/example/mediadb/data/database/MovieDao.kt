@@ -19,4 +19,7 @@ interface MovieDao {
 
     @Query("DELETE FROM movie WHERE id = :id")
     fun deleteFavoriteMovie(id: Int): Completable
+
+    @Query("SELECT * from movie WHERE id= :id")
+    fun isExistFavorite(id: Int): Single<Movie>
 }

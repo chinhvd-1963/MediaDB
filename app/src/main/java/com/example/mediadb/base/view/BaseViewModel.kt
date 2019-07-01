@@ -6,6 +6,7 @@ import io.reactivex.disposables.CompositeDisposable
 
 open class BaseViewModel : ViewModel() {
     val eventFailure = MutableLiveData<Throwable>()
+    val eventDelete = MutableLiveData<Boolean>()
     val disposables = CompositeDisposable()
 
     override fun onCleared() {
@@ -14,5 +15,9 @@ open class BaseViewModel : ViewModel() {
 
     fun showFailureThrowable(throwable: Throwable) {
         eventFailure.value = throwable
+    }
+
+    fun showDeleteEvent(isSuccess: Boolean) {
+        eventDelete.value = isSuccess
     }
 }

@@ -1,6 +1,8 @@
 package com.example.mediadb.utils
 
-object DataBaseConstants {
+object Constants {
 
     const val DATABASE_NAME = "DATABASE_MOVIE"
+
+    const val TOAST_DELETE_SUCCESS = "Delete Success."
 }

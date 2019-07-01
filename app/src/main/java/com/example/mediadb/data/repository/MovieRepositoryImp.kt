@@ -26,4 +26,8 @@ class MovieRepositoryImp constructor(
     override fun deleteFavoriteMovie(id: Int): Completable {
         return movieDao.deleteFavoriteMovie(id)
     }
+
+    override fun isExistFavorite(id: Int): Single<Movie> {
+        return movieDao.isExistFavorite(id)
+    }
 }

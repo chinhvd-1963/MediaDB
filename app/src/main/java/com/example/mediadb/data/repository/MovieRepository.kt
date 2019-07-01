@@ -14,4 +14,6 @@ interface MovieRepository {
     fun insertFavoriteMovie(movie: Movie): Completable
 
     fun deleteFavoriteMovie(id: Int): Completable
+
+    fun isExistFavorite(id: Int): Single<Movie>
 }
