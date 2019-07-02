@@ -37,10 +37,9 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
         isEndlessLoading.value = true
 
         Handler().postDelayed({
-            loadedPage++
+
             getListMovieData(loadedPage)
 
-            isEndlessLoading.value = false
         }, Constants.ENDLESS_LOADING_TIME)
     }
 
@@ -54,7 +53,12 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
                     listMovieData.value = it.movies
 
                     //Invisiable endless loading.
-                    isEndlessLoading.value = false
+                    if (isEndlessLoading.value != null) {
+                        if (isEndlessLoading.value!!) {
+                            loadedPage++
+                            isEndlessLoading.value = false
+                        }
+                    }
                     //Invisiable data loading.
                     isLoading.value = false
                 }, {
