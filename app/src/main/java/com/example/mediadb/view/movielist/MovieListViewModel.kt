@@ -60,6 +60,10 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
                     //Invisiable data loading.
                     isLoading.value = false
                 }, {
+                    //Invisiable endless loading.
+                    isEndlessLoading.value = false
+                    //Invisiable data loading.
+                    isLoading.value = false
                     showFailureThrowable(it)
                 })
         )
