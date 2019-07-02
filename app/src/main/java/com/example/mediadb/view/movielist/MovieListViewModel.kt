@@ -33,6 +33,10 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
 
     fun endlessLoading() {
         isEndlessLoading.value = true
+        //page 1 is always loaded when entering the movie list screen.
+        if (loadedPage == DEFAULT_PAGE_NUMBER) {
+            loadedPage++
+        }
         getListMovieData(loadedPage)
     }
 
