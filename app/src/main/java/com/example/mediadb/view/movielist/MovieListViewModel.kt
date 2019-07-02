@@ -1,13 +1,11 @@
 package com.example.mediadb.view.movielist
 
 import android.annotation.SuppressLint
-import android.os.Handler
 import androidx.lifecycle.MutableLiveData
 import com.example.mediadb.base.view.BaseViewModel
 import com.example.mediadb.data.model.dataresponse.Movie
 import com.example.mediadb.data.repository.MovieRepository
 import com.example.mediadb.utils.ApiUtils
-import com.example.mediadb.utils.Constants
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -35,12 +33,7 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
 
     fun endlessLoading() {
         isEndlessLoading.value = true
-
-        Handler().postDelayed({
-
-            getListMovieData(loadedPage)
-
-        }, Constants.ENDLESS_LOADING_TIME)
+        getListMovieData(loadedPage)
     }
 
     fun getListMovieData(page: Int) {
