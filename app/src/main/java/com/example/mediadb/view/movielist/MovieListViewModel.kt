@@ -22,17 +22,41 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
     val movieItem = MutableLiveData<Movie>()
     val listFavoriteMovie = MutableLiveData<MutableList<Movie>>()
     val movieItemFavorite = MutableLiveData<Movie>()
-    val isFavorite = MutableLiveData<Boolean>()
 
-    fun getListMovieData() {
+    var movieListApi: MutableList<Movie> = ArrayList()
+
+    val isFavorite = MutableLiveData<Boolean>().apply { value = false }
+    val isEndlessLoading = MutableLiveData<Boolean>().apply { value = false }
+    val isLoading = MutableLiveData<Boolean>().apply { value = false }
+
+    private var loadedPage = DEFAULT_PAGE_NUMBER
+
+    fun endlessLoading() {
+        isEndlessLoading.value = true
+        getListMovieData(loadedPage)
+    }
+
+    fun getListMovieData(page: Int) {
         val option = HashMap<String, String>()
         option[ApiUtils.API_KEY_PARAM] = ApiUtils.API_KEY
-        option[ApiUtils.PAGE] = DEFAULT_PAGE_NUMBER.toString()
+        option[ApiUtils.PAGE] = page.toString()
         disposables.add(
             movieRepository.getListMovieData(option).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({
                     listMovieData.value = it.movies
+
+                    //Invisiable endless loading.
+                    if (isEndlessLoading.value == true) {
+                            loadedPage++
+                            isEndlessLoading.value = false
+                    }
+                    //Invisiable data loading.
+                    isLoading.value = false
                 }, {
+                    //Invisiable endless loading.
+                    isEndlessLoading.value = false
+                    //Invisiable data loading.
+                    isLoading.value = false
                     showFailureThrowable(it)
                 })
         )

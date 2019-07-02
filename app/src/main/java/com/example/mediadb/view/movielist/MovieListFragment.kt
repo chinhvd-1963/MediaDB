@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mediadb.R
 import com.example.mediadb.base.view.BaseFragment
 import com.example.mediadb.data.model.dataresponse.Movie
 import com.example.mediadb.databinding.MovieListFragmentBinding
+import com.example.mediadb.utils.Constants
 import com.example.mediadb.view.moviedetail.MovieDetailFragment
 import kotlinx.android.synthetic.main.movie_list_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -37,16 +38,22 @@ class MovieListFragment : BaseFragment() {
     }
 
     override fun initViewModel() {
+        //initViewModel of Data binding.
+        binding.viewModel = viewModel
+
         setObserveEvent(viewModel)
         viewModel.listMovieData.observe(viewLifecycleOwner, Observer {
-            movieListAdapter.setAllMovieItems(it)
+            viewModel.movieListApi.addAll(it)
+            movieListAdapter.setAllMovieItems(viewModel.movieListApi)
+            swipe_refresh_list_movie.isRefreshing = false
         })
     }
 
     override fun onViewReady(view: View) {
         //Setting up RecyclerView.
-        movieListAdapter = MovieListAdapter { movieItem: Movie -> movieItemClicked(movieItem) }
-        val layoutManager = LinearLayoutManager(requireContext())
+        movieListAdapter =
+            MovieListAdapter { movieItem: Movie -> movieItemClicked(movieItem) }
+        val layoutManager = GridLayoutManager(requireContext(), Constants.NUMBER_COLUMNS_RECYCLE)
         rv_movie_list.apply {
             this.layoutManager = layoutManager
             hasFixedSize()
@@ -54,8 +61,27 @@ class MovieListFragment : BaseFragment() {
             adapter = movieListAdapter
         }
 
+        initScrollListener()
+
         // Get movie data from service.
-        viewModel.getListMovieData()
+        viewModel.getListMovieData(MovieListViewModel.DEFAULT_PAGE_NUMBER)
+        // Visiable progress bar loading.
+        viewModel.isLoading.value = true
+
+        //Swipe to refresh list movie
+        swipe_refresh_list_movie.setOnRefreshListener {
+            viewModel.movieListApi.clear()
+            viewModel.getListMovieData(MovieListViewModel.DEFAULT_PAGE_NUMBER)
+        }
+    }
+
+    private fun initScrollListener() {
+        rv_movie_list.addOnScrollListener(object : EndlessRecyclerOnScrollListener() {
+            override fun onLoadMore() {
+                viewModel.endlessLoading()
+            }
+
+        })
     }
 
     private fun movieItemClicked(movieItem: Movie) {
