@@ -77,8 +77,10 @@ class MovieDetailFragment : BaseFragment() {
         btn_back.setOnClickListener {
             var count = activity?.supportFragmentManager?.backStackEntryCount
             if (count == 0) {
+                viewModel.isHasNavigation.value = true
                 activity?.onBackPressed()
             } else {
+                viewModel.isHasNavigation.value = true
                 activity?.supportFragmentManager?.popBackStack()
             }
         }

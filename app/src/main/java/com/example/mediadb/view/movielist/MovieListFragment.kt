@@ -89,6 +89,7 @@ class MovieListFragment : BaseFragment() {
 
         val movieDetailFragment = MovieDetailFragment.newInstance()
         if (activity != null) {
+            viewModel.isHasNavigation.value = false
             activity!!.supportFragmentManager
                 .beginTransaction()
                 .add(R.id.container_fragment, movieDetailFragment)
