@@ -29,6 +29,7 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
     val isFavorite = MutableLiveData<Boolean>().apply { value = false }
     val isEndlessLoading = MutableLiveData<Boolean>().apply { value = false }
     val isLoading = MutableLiveData<Boolean>().apply { value = false }
+    val isHasNavigation = MutableLiveData<Boolean>().apply { value = true }
 
     private var nextPage = DEFAULT_PAGE_NUMBER
 

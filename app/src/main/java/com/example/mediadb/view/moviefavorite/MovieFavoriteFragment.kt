@@ -68,6 +68,7 @@ class MovieFavoriteFragment : BaseFragment() {
 
         val movieDetailFragment = MovieDetailFragment.newInstance()
         if (activity != null) {
+            viewModel.isHasNavigation.value = false
             activity!!.supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.container_fragment, movieDetailFragment)
