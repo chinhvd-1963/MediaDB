@@ -2,7 +2,8 @@ package com.example.mediadb.view.movielist
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
-import com.example.mediadb.base.view.BaseViewModel
+import com.example.mediadb.base.view.viewmodel.BaseViewModel
+import com.example.mediadb.base.view.viewmodel.SingleLiveEvent
 import com.example.mediadb.data.model.dataresponse.Movie
 import com.example.mediadb.data.repository.MovieRepository
 import com.example.mediadb.utils.ApiUtils
@@ -18,7 +19,7 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
         const val DEFAULT_PAGE_NUMBER = 1
     }
 
-    val listMovieData = MutableLiveData<MutableList<Movie>>()
+    val listMovieData = SingleLiveEvent<MutableList<Movie>>()
     val movieItem = MutableLiveData<Movie>()
     val listFavoriteMovie = MutableLiveData<MutableList<Movie>>()
     val movieItemFavorite = MutableLiveData<Movie>()
