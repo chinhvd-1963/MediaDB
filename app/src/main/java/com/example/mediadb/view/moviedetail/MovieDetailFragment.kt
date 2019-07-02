@@ -42,7 +42,10 @@ class MovieDetailFragment : BaseFragment() {
             initBtnFloatingAction(it)
         })
         viewModel.eventDelete.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(activity, Constants.TOAST_DELETE_SUCCESS, Toast.LENGTH_SHORT).show()
+            if(it == true) {
+                Toast.makeText(activity, Constants.TOAST_DELETE_SUCCESS, Toast.LENGTH_SHORT).show()
+                viewModel.eventDelete.value = false
+            }
         })
     }
 
