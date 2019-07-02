@@ -91,7 +91,7 @@ class MovieListFragment : BaseFragment() {
         if (activity != null) {
             activity!!.supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.container_fragment, movieDetailFragment)
+                .add(R.id.container_fragment, movieDetailFragment)
                 .addToBackStack(MovieDetailFragment::class.java.simpleName)
                 .commit()
         }

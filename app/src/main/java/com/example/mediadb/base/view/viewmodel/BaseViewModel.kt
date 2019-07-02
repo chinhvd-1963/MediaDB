@@ -1,4 +1,4 @@
-package com.example.mediadb.base.view
+package com.example.mediadb.base.view.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

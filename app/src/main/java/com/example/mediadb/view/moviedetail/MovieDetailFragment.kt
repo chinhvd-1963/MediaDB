@@ -15,6 +15,7 @@ import com.example.mediadb.view.movielist.MovieListViewModel
 import kotlinx.android.synthetic.main.movie_detail_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
+
 class MovieDetailFragment : BaseFragment() {
 
     companion object {
@@ -43,7 +44,7 @@ class MovieDetailFragment : BaseFragment() {
         viewModel.eventDelete.observe(viewLifecycleOwner, Observer {
             if(it == true) {
                 Toast.makeText(
-                    activity, activity?.resources?.getString(R.string.toast_delete_success),
+                    activity, activity?.resources?.getString(com.example.mediadb.R.string.toast_delete_success),
                     Toast.LENGTH_SHORT
                 ).show()
                 viewModel.eventDelete.value = false
@@ -74,8 +75,14 @@ class MovieDetailFragment : BaseFragment() {
             }
         }
         btn_back.setOnClickListener {
-            activity?.onBackPressed()
+            var count = activity?.supportFragmentManager?.backStackEntryCount
+            if (count == 0) {
+                activity?.onBackPressed()
+            } else {
+                activity?.supportFragmentManager?.popBackStack()
+            }
         }
     }
+
 
 }

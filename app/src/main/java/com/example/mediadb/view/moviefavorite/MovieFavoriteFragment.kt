@@ -40,6 +40,7 @@ class MovieFavoriteFragment : BaseFragment() {
         setObserveEvent(viewModel)
         viewModel.listFavoriteMovie.observe(viewLifecycleOwner, Observer {
             movieFavoriteAdapter.setAllMovieItems(it)
+            swipe_refresh_favorite_movie.isRefreshing = false
         })
     }
 
@@ -54,8 +55,12 @@ class MovieFavoriteFragment : BaseFragment() {
             adapter = movieFavoriteAdapter
         }
 
-        // Todo: Get favorite movie data from database.
+        //Get favorite movie data from database.
         viewModel.getListFavoriteMovie()
+
+        swipe_refresh_favorite_movie.setOnRefreshListener {
+            viewModel.getListFavoriteMovie()
+        }
     }
 
     private fun movieItemClicked(movieItem: Movie) {
