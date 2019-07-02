@@ -29,11 +29,15 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
     val isEndlessLoading = MutableLiveData<Boolean>().apply { value = false }
     val isLoading = MutableLiveData<Boolean>().apply { value = false }
 
-    private var loadedPage = DEFAULT_PAGE_NUMBER
+    private var nextPage = DEFAULT_PAGE_NUMBER
 
     fun endlessLoading() {
         isEndlessLoading.value = true
-        getListMovieData(loadedPage)
+        //page 1 is always loaded when entering the movie list screen.
+        if (nextPage == DEFAULT_PAGE_NUMBER) {
+            nextPage++
+        }
+        getListMovieData(nextPage)
     }
 
     fun getListMovieData(page: Int) {
@@ -47,7 +51,7 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
 
                     //Invisiable endless loading.
                     if (isEndlessLoading.value == true) {
-                            loadedPage++
+                            nextPage++
                             isEndlessLoading.value = false
                     }
                     //Invisiable data loading.
