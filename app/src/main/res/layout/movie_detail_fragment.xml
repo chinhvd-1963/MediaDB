@@ -15,6 +15,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
             android:background="@color/black">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -26,7 +28,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:scaleType="centerCrop"
                 bind:loadPoster="@{viewModel.movieItem.backdropPath}"
-                android:src="@drawable/background_movie"/>
+                android:src="@drawable/movie_background"/>
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/btn_back"

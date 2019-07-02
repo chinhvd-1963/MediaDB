@@ -16,7 +16,7 @@ object MovieBindingAdapter {
     fun AppCompatImageView.loadPosterUrl(url: String?) {
         url?.let {
             Glide.with(this.context).load(imageUrl(it))
-                .placeholder(R.drawable.background_movie).dontAnimate().into(this)
+                .placeholder(R.drawable.movie_background).dontAnimate().into(this)
         }
     }
 }

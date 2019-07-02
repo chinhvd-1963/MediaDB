@@ -62,4 +62,15 @@ class MainActivity : BaseActivity() {
         false
     }
 
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+
+        if (count == 0) {
+            super.onBackPressed()
+            viewModel.isHasNavigation.value = true
+        } else {
+            viewModel.isHasNavigation.value = true
+            supportFragmentManager.popBackStack()
+        }
+    }
 }
