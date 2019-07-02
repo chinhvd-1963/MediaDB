@@ -53,11 +53,9 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
                     listMovieData.value = it.movies
 
                     //Invisiable endless loading.
-                    if (isEndlessLoading.value != null) {
-                        if (isEndlessLoading.value!!) {
+                    if (isEndlessLoading.value == true) {
                             loadedPage++
                             isEndlessLoading.value = false
-                        }
                     }
                     //Invisiable data loading.
                     isLoading.value = false
