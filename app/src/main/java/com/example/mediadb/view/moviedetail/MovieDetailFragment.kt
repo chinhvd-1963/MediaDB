@@ -11,7 +11,6 @@ import com.example.mediadb.R
 import com.example.mediadb.base.view.BaseFragment
 import com.example.mediadb.data.model.dataresponse.Movie
 import com.example.mediadb.databinding.MovieDetailFragmentBinding
-import com.example.mediadb.utils.Constants
 import com.example.mediadb.view.movielist.MovieListViewModel
 import kotlinx.android.synthetic.main.movie_detail_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -43,7 +42,10 @@ class MovieDetailFragment : BaseFragment() {
         })
         viewModel.eventDelete.observe(viewLifecycleOwner, Observer {
             if(it == true) {
-                Toast.makeText(activity, Constants.TOAST_DELETE_SUCCESS, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, activity?.resources?.getString(R.string.toast_delete_success),
+                    Toast.LENGTH_SHORT
+                ).show()
                 viewModel.eventDelete.value = false
             }
         })
