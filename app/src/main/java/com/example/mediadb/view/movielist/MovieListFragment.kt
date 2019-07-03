@@ -1,6 +1,7 @@
 package com.example.mediadb.view.movielist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,11 @@ class MovieListFragment : BaseFragment() {
     private val viewModel: MovieListViewModel by sharedViewModel()
     private lateinit var movieListAdapter: MovieListAdapter
     private lateinit var binding: MovieListFragmentBinding
+    private var endlessRecyclerOnScrollListener = object : EndlessRecyclerOnScrollListener() {
+        override fun onLoadMore() {
+            viewModel.endlessLoading()
+        }
+    }
 
     companion object {
         fun newInstance(): MovieListFragment {
@@ -47,6 +53,19 @@ class MovieListFragment : BaseFragment() {
             movieListAdapter.setAllMovieItems(viewModel.movieListApi)
             swipe_refresh_list_movie.isRefreshing = false
         })
+        viewModel.isListMovieInitialized.observe(viewLifecycleOwner, Observer {
+            if (it == false) {
+                // Get movie data from service.
+                viewModel.getListMovieData(MovieListViewModel.DEFAULT_PAGE_NUMBER)
+                // Visiable progress bar loading.
+                viewModel.isMovieListLoading.value = true
+                //Initialize list movie value only one time.
+                viewModel.saveListMovieInitialized()
+            }
+        })
+        viewModel.isMovieListLoading.observe(viewLifecycleOwner, Observer {
+            swipe_refresh_list_movie.isRefreshing = false
+        })
     }
 
     override fun onViewReady(view: View) {
@@ -60,28 +79,25 @@ class MovieListFragment : BaseFragment() {
             addItemDecoration(DividerItemDecoration(context, layoutManager.orientation))
             adapter = movieListAdapter
         }
-
-        initScrollListener()
-
-        // Get movie data from service.
-        viewModel.getListMovieData(MovieListViewModel.DEFAULT_PAGE_NUMBER)
-        // Visiable progress bar loading.
-        viewModel.isLoading.value = true
+        movieListAdapter.setAllMovieItems(viewModel.movieListApi)
 
         //Swipe to refresh list movie
         swipe_refresh_list_movie.setOnRefreshListener {
             viewModel.movieListApi.clear()
+
+            viewModel.nextPage.value = MovieListViewModel.DEFAULT_PAGE_NUMBER
+
+            endlessRecyclerOnScrollListener.mPreviousTotal = Constants.DEFAULT_NUMBER_PREVIEW_MOVIE_ITEM
+            endlessRecyclerOnScrollListener.mLoading = true
+
             viewModel.getListMovieData(MovieListViewModel.DEFAULT_PAGE_NUMBER)
         }
+
+        initScrollListener()
     }
 
     private fun initScrollListener() {
-        rv_movie_list.addOnScrollListener(object : EndlessRecyclerOnScrollListener() {
-            override fun onLoadMore() {
-                viewModel.endlessLoading()
-            }
-
-        })
+        rv_movie_list.addOnScrollListener(endlessRecyclerOnScrollListener)
     }
 
     private fun movieItemClicked(movieItem: Movie) {

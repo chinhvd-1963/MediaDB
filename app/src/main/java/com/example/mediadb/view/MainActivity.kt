@@ -40,6 +40,18 @@ class MainActivity : BaseActivity() {
         viewModel.isHasNavigation.observe(this, Observer {
             binding.viewModel = viewModel
         })
+        viewModel.activeFragment.observe(this, Observer {
+            when (it) {
+                Constants.MOVIE_LIST_FRAGMENT -> {
+                    fm.beginTransaction().hide(activeFragment).show(movieListFragment).commit()
+                    activeFragment = movieListFragment
+                }
+                Constants.MOVIE_FAVORITE_FRAGMENT -> {
+                    fm.beginTransaction().hide(activeFragment).show(movieFavoriteFragment).commit()
+                    activeFragment = movieFavoriteFragment
+                }
+            }
+        })
     }
 
     override fun layoutDatabinding() {
@@ -49,17 +61,26 @@ class MainActivity : BaseActivity() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                fm.beginTransaction().hide(activeFragment).show(movieListFragment).commit()
-                activeFragment = movieListFragment
+                viewModel.activeFragment.value = Constants.MOVIE_LIST_FRAGMENT
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_favorite -> {
-                fm.beginTransaction().hide(activeFragment).show(movieFavoriteFragment).commit()
-                activeFragment = movieFavoriteFragment
+                viewModel.activeFragment.value = Constants.MOVIE_FAVORITE_FRAGMENT
                 return@OnNavigationItemSelectedListener true
             }
         }
         false
     }
 
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+
+        if (count == 0) {
+            super.onBackPressed()
+            viewModel.isHasNavigation.value = true
+        } else {
+            viewModel.isHasNavigation.value = true
+            supportFragmentManager.popBackStack()
+        }
+    }
 }

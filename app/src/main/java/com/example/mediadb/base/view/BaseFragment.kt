@@ -27,8 +27,8 @@ abstract class BaseFragment : Fragment() {
             if (it.message != null) {
                 Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
             }
-            swipe_refresh_list_movie.isRefreshing = false
-            swipe_refresh_favorite_movie.isRefreshing = false
+            swipe_refresh_list_movie?.isRefreshing = false
+            swipe_refresh_favorite_movie?.isRefreshing = false
         })
     }
 }

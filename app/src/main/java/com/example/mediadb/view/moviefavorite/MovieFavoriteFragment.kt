@@ -42,6 +42,10 @@ class MovieFavoriteFragment : BaseFragment() {
             movieFavoriteAdapter.setAllMovieItems(it)
             swipe_refresh_favorite_movie.isRefreshing = false
         })
+        viewModel.isHasNavigation.observe(viewLifecycleOwner, Observer {
+            //Get favorite movie data from database.
+            viewModel.getListFavoriteMovie()
+        })
     }
 
     override fun onViewReady(view: View) {
