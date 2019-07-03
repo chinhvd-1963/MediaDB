@@ -1,14 +1,16 @@
 package com.example.mediadb.view.movielist
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import com.example.mediadb.base.view.viewmodel.BaseViewModel
 import com.example.mediadb.base.view.viewmodel.SingleLiveEvent
 import com.example.mediadb.data.model.dataresponse.Movie
 import com.example.mediadb.data.repository.MovieRepository
 import com.example.mediadb.utils.ApiUtils
+import com.example.mediadb.utils.Constants
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import retrofit2.HttpException
+import java.io.IOException
 
 
 class MovieListViewModel constructor(val movieRepository: MovieRepository) : BaseViewModel() {
@@ -28,18 +30,21 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
 
     val isFavorite = MutableLiveData<Boolean>().apply { value = false }
     val isEndlessLoading = MutableLiveData<Boolean>().apply { value = false }
-    val isLoading = MutableLiveData<Boolean>().apply { value = false }
+    val isMovieListLoading = MutableLiveData<Boolean>().apply { value = false }
     val isHasNavigation = MutableLiveData<Boolean>().apply { value = true }
+    val isListMovieInitialized = MutableLiveData<Boolean>().apply { value = false }
 
-    private var nextPage = DEFAULT_PAGE_NUMBER
+    val activeFragment = MutableLiveData<Int>().apply { value = Constants.MOVIE_LIST_FRAGMENT }
+    val nextPage = MutableLiveData<Int>().apply { value = DEFAULT_PAGE_NUMBER }
+
 
     fun endlessLoading() {
         isEndlessLoading.value = true
         //page 1 is always loaded when entering the movie list screen.
-        if (nextPage == DEFAULT_PAGE_NUMBER) {
-            nextPage++
+        if (nextPage.value == DEFAULT_PAGE_NUMBER) {
+            nextPage.value = nextPage.value?.plus(1)
         }
-        getListMovieData(nextPage)
+        getListMovieData(nextPage.value!!)
     }
 
     fun getListMovieData(page: Int) {
@@ -53,22 +58,34 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
 
                     //Invisiable endless loading.
                     if (isEndlessLoading.value == true) {
-                            nextPage++
-                            isEndlessLoading.value = false
+                        nextPage.value = nextPage.value?.plus(1)
+                        isEndlessLoading.value = false
                     }
                     //Invisiable data loading.
-                    isLoading.value = false
+                    isMovieListLoading.value = false
                 }, {
-                    //Invisiable endless loading.
-                    isEndlessLoading.value = false
-                    //Invisiable data loading.
-                    isLoading.value = false
-                    showFailureThrowable(it)
+                    when (it) {
+                        is IOException -> {
+                            //handle network error
+                            isEndlessLoading.value = false
+                            isMovieListLoading.value = false
+                            showFailureThrowable(it)
+                        }
+                        is HttpException -> {
+                            isEndlessLoading.value = false
+                            isMovieListLoading.value = false
+                            showFailureThrowable(it)
+                        }
+                        else -> {
+                            isEndlessLoading.value = false
+                            isMovieListLoading.value = false
+                            showFailureThrowable(it)
+                        }
+                    }
                 })
         )
     }
 
-    @SuppressLint("CheckResult")
     fun getListFavoriteMovie() {
         disposables.add(
             movieRepository.getListFavoriteMovie().subscribeOn(Schedulers.io())
@@ -112,5 +129,9 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
                 })
         )
 
+    }
+
+    fun saveListMovieInitialized() {
+        isListMovieInitialized.value = true
     }
 }

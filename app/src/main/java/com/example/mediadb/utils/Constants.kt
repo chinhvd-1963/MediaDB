@@ -8,5 +8,8 @@ object Constants {
     const val MOVIE_LIST = "movieList"
 
     const val NUMBER_COLUMNS_RECYCLE = 2
-    const val ENDLESS_LOADING_TIME = 2000L
+    const val DEFAULT_NUMBER_PREVIEW_MOVIE_ITEM = 0
+
+    const val MOVIE_LIST_FRAGMENT = 1
+    const val MOVIE_FAVORITE_FRAGMENT = 2
 }
