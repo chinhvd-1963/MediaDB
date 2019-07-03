@@ -44,7 +44,7 @@ class MovieListViewModel constructor(val movieRepository: MovieRepository) : Bas
         if (nextPage.value == DEFAULT_PAGE_NUMBER) {
             nextPage.value = nextPage.value?.plus(1)
         }
-        getListMovieData(nextPage.value!!)
+        getListMovieData(nextPage.value ?: DEFAULT_PAGE_NUMBER)
     }
 
     fun getListMovieData(page: Int) {
