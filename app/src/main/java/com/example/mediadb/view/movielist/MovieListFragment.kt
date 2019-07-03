@@ -54,7 +54,7 @@ class MovieListFragment : BaseFragment() {
             swipe_refresh_list_movie.isRefreshing = false
         })
         viewModel.isListMovieInitialized.observe(viewLifecycleOwner, Observer {
-            if (!it) {
+            if (it == false) {
                 // Get movie data from service.
                 viewModel.getListMovieData(MovieListViewModel.DEFAULT_PAGE_NUMBER)
                 // Visiable progress bar loading.
