@@ -84,6 +84,7 @@ class MovieListFragment : BaseFragment() {
         //Swipe to refresh list movie
         swipe_refresh_list_movie.setOnRefreshListener {
             viewModel.movieListApi.clear()
+            movieListAdapter.notifyDataSetChanged()
 
             viewModel.nextPage.value = MovieListViewModel.DEFAULT_PAGE_NUMBER
 

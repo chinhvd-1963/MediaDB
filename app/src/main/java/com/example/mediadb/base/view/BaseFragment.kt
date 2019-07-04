@@ -24,8 +24,9 @@ abstract class BaseFragment : Fragment() {
     fun setObserveEvent(viewModel: BaseViewModel) {
 
         viewModel.eventFailure.observe(viewLifecycleOwner, Observer {
-            if (it.message != null) {
+            if (it?.message != null) {
                 Toast.makeText(activity, "${it.message}", Toast.LENGTH_SHORT).show()
+                viewModel.eventFailure.value = null
             }
             swipe_refresh_list_movie?.isRefreshing = false
             swipe_refresh_favorite_movie?.isRefreshing = false
